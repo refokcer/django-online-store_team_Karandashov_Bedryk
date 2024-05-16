@@ -1,0 +1,1 @@
+# django-online-store_team_Karandashov_Bedryk

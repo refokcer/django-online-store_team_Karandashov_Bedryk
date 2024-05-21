@@ -2,6 +2,7 @@
 .env
 .gitignore
 .dockerignore
+.idea
 README.md
 docker-compose.yml
 db.sqlite3

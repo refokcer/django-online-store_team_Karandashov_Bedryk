@@ -3,7 +3,7 @@ LABEL authors="picadio, refokcer"
 
 WORKDIR app
 
-COPY ./requirments.txt .
+COPY requirements.txt .
 RUN ["pip3", "install", "-r", "./requirments.txt", "--no-cache-dir"]
 
 COPY . .

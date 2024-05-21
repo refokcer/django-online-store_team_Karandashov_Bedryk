@@ -8,7 +8,7 @@ from shop.models import Product
 from accounts.models import User
 from orders.models import Order, OrderItem
 from .forms import AddProductForm, AddCategoryForm, EditProductForm
-
+import base64
 
 def is_manager(user):
     try:
@@ -33,6 +33,9 @@ def add_product(request):
     if request.method == 'POST':
         form = AddProductForm(request.POST, request.FILES)
         if form.is_valid():
+            instance = form.save(commit=False)
+            image = form.cleaned_data["img"]
+            instance.image = "data:image/png;base64, " + base64.b64encode(image.read()).decode('utf-8')
             form.save()
             messages.success(request, 'Product added Successfuly!')
             return redirect('dashboard:add_product')

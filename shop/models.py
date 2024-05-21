@@ -25,7 +25,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='category')
-    image = models.ImageField(upload_to='products')
+    image = models.TextField()
     title = models.CharField(max_length=250)
     description = models.TextField()
     price = models.IntegerField()
@@ -43,4 +43,5 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        return super().save(*args, **kwargs)
+
+        super().save(*args, **kwargs)

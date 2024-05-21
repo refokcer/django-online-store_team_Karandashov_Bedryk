@@ -1,1 +1,1 @@
-web: gunicorn online_shop.wsgi —log-file —log-level debug
+web: gunicorn online_shop.wsgi —log-file - —log-level debug

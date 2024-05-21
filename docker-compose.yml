@@ -1,0 +1,11 @@
+services:
+  onlineshop:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      SECRET_KEY: django-insecure-9oe*hcyxx!u$+&4-ixzp$6b^wuj4=&im12bif6o64_huu2o^&p
+    networks:
+      - default

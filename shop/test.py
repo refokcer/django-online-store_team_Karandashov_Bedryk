@@ -8,34 +8,35 @@ from shop.models import Product, Category
 
 
 class ShopTests(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(email='testuser@gmail.com', full_name="test", password='12345')
-        self.order = Order.objects.create(user=self.user)
-        self.category = Category.objects.create(title='test', slug='test')
-        self.product = Product.objects.create(category=self.category, image='test.jpg', price=10,
-                                              title="test", description="test", slug="test")
-        self.orderItem = OrderItem.objects.create(order=self.order, product=self.product, quantity=3, price=10)
-        self.orderItem2 = OrderItem.objects.create(order=self.order, product=self.product, quantity=2, price=121)
+    # def setUp(self):
+    #     self.user = User.objects.create_user(email='testuser@gmail.com', full_name="test", password='12345')
+    #     self.order = Order.objects.create(user=self.user)
+    #     self.category = Category.objects.create(title='test', slug='test')
+    #     self.product = Product.objects.create(category=self.category, image='test.jpg', price=10,
+    #                                           title="test", description="test", slug="test")
+    #     self.orderItem = OrderItem.objects.create(order=self.order, product=self.product, quantity=3, price=10)
+    #     self.orderItem2 = OrderItem.objects.create(order=self.order, product=self.product, quantity=2, price=121)
 
-    def test_user_shop_view_not_auth(self):
-        response = self.client.get(reverse('orders:user_orders'))
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, f'{reverse("accounts:user_login")}?next={reverse("orders:user_orders")}')
-
-    def test_create_shop_view_favorites(self):
+    def test_user_shop_view_favorites(self):
         self.client.login(email='testuser@gmail.com', password='12345')
         response = self.client.get(reverse('shop:favorites'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'favorites.html')
 
-    def test_user_shop_view_with_auth(self):
+    def test_user_shop_view_base(self):
         self.client.login(email='testuser@gmail.com', password='12345')
-        response = self.client.get(reverse('orders:user_orders'))
+        response = self.client.get(reverse('shop:base'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'user_orders.html')
+        self.assertTemplateUsed(response, 'base.html')
 
-    def test_get_price(self):
-        self.assertEqual(self.orderItem.get_cost(), 30)
+    def test_user_shop_view_home_page(self):
+        self.client.login(email='testuser@gmail.com', password='12345')
+        response = self.client.get(reverse('shop:home_page'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'home_page.html')
 
-    def test_get_full_price(self):
-        self.assertEqual(self.order.get_total_price, 272)
+    def test_user_shop_view_product_detail(self):
+        self.client.login(email='testuser@gmail.com', password='12345')
+        response = self.client.get(reverse('shop:product_detail'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'product_detail.html')

@@ -23,20 +23,14 @@ class ShopTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'favorites.html')
 
-    # def test_user_shop_view_base(self):
-    #     self.client.login(email='testuser@gmail.com', password='12345')
-    #     response = self.client.get(reverse('shop:base'))
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertTemplateUsed(response, 'base.html')
-
     def test_user_shop_view_home_page(self):
         self.client.login(email='testuser@gmail.com', password='12345')
         response = self.client.get(reverse('shop:home_page'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home_page.html')
 
-    #def test_user_shop_view_product_detail(self):
-    #    self.client.login(email='testuser@gmail.com', password='12345')
-    #    response = self.client.get(reverse('shop:product_detail'))
-    #    self.assertEqual(response.status_code, 200)
-    #    self.assertTemplateUsed(response, 'product_detail.html')
+    def test_user_shop_view_product_detail(self):
+        self.client.login(email='testuser@gmail.com', password='12345')
+        response = self.client.get(reverse('shop:product_detail', args=[self.product.slug]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'product_detail.html')

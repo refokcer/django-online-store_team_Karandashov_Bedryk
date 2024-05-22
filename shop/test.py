@@ -17,18 +17,18 @@ class ShopTests(TestCase):
         self.orderItem = OrderItem.objects.create(order=self.order, product=self.product, quantity=3, price=10)
         self.orderItem2 = OrderItem.objects.create(order=self.order, product=self.product, quantity=2, price=121)
 
-    def test_user_orders_view_not_auth(self):
+    def test_user_shop_view_not_auth(self):
         response = self.client.get(reverse('orders:user_orders'))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f'{reverse("accounts:user_login")}?next={reverse("orders:user_orders")}')
 
-    def test_create_order_view_with_auth(self):
+    def test_create_shop_view_favorites(self):
         self.client.login(email='testuser@gmail.com', password='12345')
-        response = self.client.get(reverse('orders:checkout', kwargs={'order_id': self.order.id}))
+        response = self.client.get(reverse('shop:favorites'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'checkout.html')
+        self.assertTemplateUsed(response, 'favorites.html')
 
-    def test_user_orders_view_with_auth(self):
+    def test_user_shop_view_with_auth(self):
         self.client.login(email='testuser@gmail.com', password='12345')
         response = self.client.get(reverse('orders:user_orders'))
         self.assertEqual(response.status_code, 200)

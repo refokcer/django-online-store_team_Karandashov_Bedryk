@@ -47,10 +47,16 @@ def user_register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            user = User.objects.create_user(
-                data['email'], data['full_name'], data['password']
-            )
-            return redirect('accounts:user_login')
+            if not User.objects.filter(email=data['email']).exists():
+                user = User.objects.create_user(
+                    data['email'], data['full_name'], data['password']
+                )
+                return redirect('accounts:user_login')
+            else:
+                messages.error(
+                    request, 'Email already exists', 'danger'
+                )
+                return redirect('accounts:user_register')
     else:
         form = UserRegistrationForm()
     context = {'title':'Signup', 'form':form}

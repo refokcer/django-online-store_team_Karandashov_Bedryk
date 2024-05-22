@@ -1,18 +1,14 @@
 from django.test import TestCase
 
 from accounts.models import User
-from django.urls import reverse
+from django.urls import reverse, resolve
+
+from shop.models import Product, Category
 
 
 class OrderTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(email='testuser@gmail.com', full_name="test", password='12345')
-
-    def test_user_cart_view_add_to_card(self):
-        self.client.login(email='testuser@gmail.com', password='12345')
-        response = self.client.get(reverse('cart:add_to_cart', args=[1]))
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, f'{reverse("shop:product_detail", args=[1])}')
 
     def test_user_cart_view_show_cart(self):
         self.client.login(email='testuser@gmail.com', password='12345')

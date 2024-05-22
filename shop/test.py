@@ -34,3 +34,10 @@ class ShopTests(TestCase):
         response = self.client.get(reverse('shop:product_detail', args=[self.product.slug]))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'product_detail.html')
+
+    def test_user_shop_view_category(self):
+        self.client.login(email='testuser@gmail.com', password='12345')
+        response = self.client.get(reverse('shop:category', args=[self.category.slug]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'category.html')
+

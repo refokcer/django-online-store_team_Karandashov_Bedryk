@@ -9,6 +9,16 @@
   </head>
   <body>
     <main class="container">
+        <div class="row mt-3">
+          <!-- messages -->
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+          <!-- content -->
+          {% block content %}{% endblock %}
+        </div>
       <div class="row mt-5 text-capitalize">
         <div class="col-md-4"></div>
         <div class="col-md-4">

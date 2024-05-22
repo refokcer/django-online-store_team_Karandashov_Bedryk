@@ -28,7 +28,7 @@ def manager_login(request):
             user = authenticate(
                 request, email=data['email'], password=data['password']
             )
-            if user is not None and user.is_manager:
+            if user is not None and user.is_admin:
                 login(request, user)
                 return redirect('dashboard:products')
             else:

@@ -10,16 +10,16 @@ from orders.models import Order, OrderItem
 from .forms import AddProductForm, AddCategoryForm, EditProductForm
 import base64
 
-def is_manager(user):
+def is_admin(user):
     try:
-        if not user.is_manager:
+        if not user.is_admin:
             raise Http404
         return True
     except:
         raise Http404
 
 
-@user_passes_test(is_manager)
+@user_passes_test(is_admin)
 @login_required
 def products(request):
     products = Product.objects.all()
@@ -27,7 +27,7 @@ def products(request):
     return render(request, 'products.html', context)
 
 
-@user_passes_test(is_manager)
+@user_passes_test(is_admin)
 @login_required
 def add_product(request):
     if request.method == 'POST':
@@ -45,7 +45,7 @@ def add_product(request):
     return render(request, 'add_product.html', context)
 
 
-@user_passes_test(is_manager)
+@user_passes_test(is_admin)
 @login_required
 def delete_product(request, id):
     product = Product.objects.filter(id=id).delete()
@@ -53,7 +53,7 @@ def delete_product(request, id):
     return redirect('dashboard:products')
 
 
-@user_passes_test(is_manager)
+@user_passes_test(is_admin)
 @login_required
 def edit_product(request, id):
     product = get_object_or_404(Product, id=id)
@@ -69,7 +69,7 @@ def edit_product(request, id):
     return render(request, 'edit_product.html', context)
 
 
-@user_passes_test(is_manager)
+@user_passes_test(is_admin)
 @login_required
 def add_category(request):
     if request.method == 'POST':
@@ -84,7 +84,7 @@ def add_category(request):
     return render(request, 'add_category.html', context)
 
 
-@user_passes_test(is_manager)
+@user_passes_test(is_admin)
 @login_required
 def orders(request):
     orders = Order.objects.all()
@@ -92,7 +92,7 @@ def orders(request):
     return render(request, 'orders.html', context)
 
 
-@user_passes_test(is_manager)
+@user_passes_test(is_admin)
 @login_required
 def order_detail(request, id):
     order = Order.objects.filter(id=id).first()

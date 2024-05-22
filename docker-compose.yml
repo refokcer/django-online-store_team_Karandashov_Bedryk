@@ -1,11 +1,32 @@
 services:
+  db:
+    image: postgres:16
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "dev" ]
+    environment:
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: $DB_NAME
+    ports:
+      - "$DB_PORT:5432"
+    networks:
+      - default
   onlineshop:
+    depends_on:
+      - db
     build:
       context: .
       dockerfile: ./Dockerfile
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     ports:
       - "8000:8000"
     environment:
-      SECRET_KEY: django-insecure-9oe*hcyxx!u$+&4-ixzp$6b^wuj4=&im12bif6o64_huu2o^&p
+      SECRET_KEY: $SECRET_KEY
+      DB_NAME: $DB_NAME
+      DB_USER: $DB_USER
+      DB_PASSWORD: $DB_PASSWORD
+      DB_PORT: $DB_PORT
+      DB_HOST: $DB_HOST
+      ALLOWED_HOST: $ALLOWED_HOST
     networks:
       - default

@@ -11,3 +11,4 @@ docker-compose.yml
 __pycache__
 Procfile
 runtime.txt
+.github

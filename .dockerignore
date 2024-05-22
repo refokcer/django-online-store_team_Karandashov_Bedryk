@@ -7,4 +7,7 @@ venv
 .idea
 README.md
 docker-compose.yml
-db.sqlite3
+*.sqlite3
+__pycache__
+Procfile
+runtime.txt
